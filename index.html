@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="en-us">
+<html lang="de-DE">
 
 <head>
-	<meta name="generator" content="Hugo 0.158.0"><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+	<meta name="generator" content="Hugo 0.158.0">
 	<meta http-equiv="X-Clacks-Overhead" content="GNU Terry Pratchett" />
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<title>Katholische Jugendgruppen Karte</title>
+	<title>Katholische Jugendgruppen Karte | Katholische Jugendgruppen Karte</title>
 
 	<meta name="referrer" content="no-referrer-when-downgrade" /><style>
 html {
@@ -95,12 +95,7 @@ body {
 <div id="information" class="modal">
 	<div class="modal-content">
 		<span class="close">&times;</span>
-		<h3 id="yg-name"></h3>
-		<hr>
-		<b>Treffpunkt:</b><br>
-		<span id="yg-treffpunkt"></span><br><br>
-		<b>Informationen:</b><br>
-		<span id="yg-details"></span>
+		<div id="yg-information"></div>
 	</div>
 </div>
 
@@ -111,15 +106,12 @@ body {
 	var map = L.map('map').setView([49.986, 9.137], 19);
 	var modal = document.getElementById("information");
 	var closeModal = document.getElementsByClassName("close")[0];
-	var yg_name = document.getElementById("yg-name");
-	var yg_details = document.getElementById("yg-details");
-	var yg_treffpunkt = document.getElementById("yg-treffpunkt");
+	var yg_information = document.getElementById("yg-information");
 
-	function openInformation(name, treffpunkt, kontakt, details) {
-		yg_name.innerText = name;
-		yg_details.innerText = details;
-		yg_treffpunkt.innerText = treffpunkt;
-		console.log(treffpunkt, kontakt);
+	function openInformation(html) {
+		yg_information.innerHTML = html;
+		console.log(html);
+		console.log("change");
 		modal.style.display = "block";
 	}
 
@@ -146,9 +138,7 @@ body {
 	
 		L.marker([ 49.986256 ,  9.137583 ]).addTo(map).bindPopup(
 			`
-			<h4><u>Katholische Jugend Aschaffenburg</u></h4>
-			<b>Treffen:</b>
-			<br>
+			<h4>Katholische Jugend Aschaffenburg</h4>
 			
 				<span>Gerade KW: Samstag 16-18 Uhr</span>
 				<br>
@@ -156,59 +146,65 @@ body {
 				<span>Ungerade KW: Sonntag 11.30-13.30 Uhr</span>
 				<br>
 			
+
 			<br>
-			<b>Treffpunkt:</b>
-			<br>
-			<span>Parkplatz Schillerschule neben der St. Michaelkirche, Aschaffenburg-Damm</span>
-			<br>
-			<b>Kontakt:</b>
-			<br>
-			 
-				<span><a href="mailto=katholische-jugend-ab@mailbox.org">katholische-jugend-ab@mailbox.org</a></span>
-				<br>
-			
-			
-			
-			<details>
-				<summary>Für weitere Informationen, hier klicken</summary>
-				<p>Wir sind die Katholische Jugend Aschaffenburg und treffen uns regelmäßig, wir versuchen jede 2. Woche am samstag zu kochen, deswegen nehmen wir, wenn möglich, auch einen Mitgliedsbeitrag von 20 Euro. Wir laden natürlich jeden herzlich ein vorbeizukommen, am besten ist es jedoch sich vorher zu melden, da evtl. Veränderungen des Treffpunktes o.Ä. vorliegen.</p>
-			</details>
-			
-			<button onclick="openInformation('Katholische Jugend Aschaffenburg', 'Parkplatz Schillerschule neben der St. Michaelkirche, Aschaffenburg-Damm', 'map[email:katholische-jugend-ab@mailbox.org]', 'Wir sind die Katholische Jugend Aschaffenburg und treffen uns regelmäßig, wir versuchen jede 2. Woche am samstag zu kochen, deswegen nehmen wir, wenn möglich, auch einen Mitgliedsbeitrag von 20 Euro. Wir laden natürlich jeden herzlich ein vorbeizukommen, am besten ist es jedoch sich vorher zu melden, da evtl. Veränderungen des Treffpunktes o.Ä. vorliegen.')">Click here</button>
+
+			\x3C!-- This definitely bloats up the index.html file after generation, but
+				 at this time I can't figure out something more elegant while being bound
+				 to a SSG. This passes the html the modal is supposed to show directly through the
+				 button press. -->
+			<button onclick="openInformation(\`
+				<h2>Katholische Jugend Aschaffenburg</h2><hr>
+				<b><u>Treffen:</u></b><br>
+				<span>Gerade KW: Samstag 16-18 Uhr</span><br> <span>Ungerade KW: Sonntag 11.30-13.30 Uhr</span><br> 
+				<b><u>Treffpunkt:</u></b><br>
+				<span>Parkplatz Schillerschule neben der St. Michaelkirche, Aschaffenburg-Damm</span><br>
+
+				
+					<b><u>Informationen:</u></b><br>
+					<span>Wir sind die Katholische Jugend Aschaffenburg und treffen uns regelmäßig, wir versuchen jede 2. Woche am samstag zu kochen, deswegen nehmen wir, wenn möglich, auch einen Mitgliedsbeitrag von 20 Euro. Wir laden natürlich jeden herzlich ein vorbeizukommen, am besten ist es jedoch sich vorher zu melden, da evtl. Veränderungen des Treffpunktes o.Ä. vorliegen.</span><br>
+				
+
+				<b><u>Kontakt:</u></b><br>
+				 <a href='mailto=katholische-jugend-ab@mailbox.org'>katholische-jugend-ab@mailbox.org</a><br> 
+				
+			\`)">Mehr Infos</button>
 			`
 		);
 	
 		L.marker([ 49.986 ,  9.137 ]).addTo(map).bindPopup(
 			`
-			<h4><u>Katholische Jugend Buxtehude (NICHT REAL)</u></h4>
-			<b>Treffen:</b>
-			<br>
+			<h4>Katholische Jugend Buxtehude (NICHT REAL)</h4>
 			
 				<span>Jede Woche Sonntags nach dem Gottesdienst</span>
 				<br>
 			
+
 			<br>
-			<b>Treffpunkt:</b>
-			<br>
-			<span>Rathaus Buxtehude</span>
-			<br>
-			<b>Kontakt:</b>
-			<br>
-			
-			
-				<span><a href="tel:\u002b49 00 00000000">\u002b49 00 00000000</a></span>
-				<br>
-			
-			
-			<button onclick="openInformation('Katholische Jugend Buxtehude (NICHT REAL)', 'Rathaus Buxtehude', 'map[tlf:\u002b49 00 00000000]', '')">Click here</button>
+
+			\x3C!-- This definitely bloats up the index.html file after generation, but
+				 at this time I can't figure out something more elegant while being bound
+				 to a SSG. This passes the html the modal is supposed to show directly through the
+				 button press. -->
+			<button onclick="openInformation(\`
+				<h2>Katholische Jugend Buxtehude (NICHT REAL)</h2><hr>
+				<b><u>Treffen:</u></b><br>
+				<span>Jede Woche Sonntags nach dem Gottesdienst</span><br> 
+				<b><u>Treffpunkt:</u></b><br>
+				<span>Rathaus Buxtehude</span><br>
+
+				
+
+				<b><u>Kontakt:</u></b><br>
+				
+				 <a href='tel:\u002b49 00 00000000'>\u002b49 00 00000000</a><br> 
+			\`)">Mehr Infos</button>
 			`
 		);
 	
 		L.marker([ 50 ,  10 ]).addTo(map).bindPopup(
 			`
-			<h4><u>Katholische Gemeinde Gott-sei\u0027s Gedankt</u></h4>
-			<b>Treffen:</b>
-			<br>
+			<h4>Katholische Gemeinde Gott-sei\u0027s Gedankt</h4>
 			
 				<span>Montags 16.00 Uhr bei einem Mitglied</span>
 				<br>
@@ -219,25 +215,29 @@ body {
 				<span>Sonntags 11.30 Uhr Gemeinschaftsstunde</span>
 				<br>
 			
+
 			<br>
-			<b>Treffpunkt:</b>
-			<br>
-			<span>Neben der Kirche</span>
-			<br>
-			<b>Kontakt:</b>
-			<br>
-			 
-				<span><a href="mailto=gottseisgedankt@gmail.com">gottseisgedankt@gmail.com</a></span>
-				<br>
-			
-			
-			
-			<details>
-				<summary>Für weitere Informationen, hier klicken</summary>
-				<p>Bitte vorher anmelden, damit wir evtl. Terminänderungen durchgeben können</p>
-			</details>
-			
-			<button onclick="openInformation('Katholische Gemeinde Gott-sei\u0027s Gedankt', 'Neben der Kirche', 'map[email:gottseisgedankt@gmail.com]', 'Bitte vorher anmelden, damit wir evtl. Terminänderungen durchgeben können')">Click here</button>
+
+			\x3C!-- This definitely bloats up the index.html file after generation, but
+				 at this time I can't figure out something more elegant while being bound
+				 to a SSG. This passes the html the modal is supposed to show directly through the
+				 button press. -->
+			<button onclick="openInformation(\`
+				<h2>Katholische Gemeinde Gott-sei\u0027s Gedankt</h2><hr>
+				<b><u>Treffen:</u></b><br>
+				<span>Montags 16.00 Uhr bei einem Mitglied</span><br> <span>Samstags 12.00 Uhr Bibelstunde</span><br> <span>Sonntags 11.30 Uhr Gemeinschaftsstunde</span><br> 
+				<b><u>Treffpunkt:</u></b><br>
+				<span>Neben der Kirche</span><br>
+
+				
+					<b><u>Informationen:</u></b><br>
+					<span>Bitte vorher anmelden, damit wir evtl. Terminänderungen durchgeben können</span><br>
+				
+
+				<b><u>Kontakt:</u></b><br>
+				 <a href='mailto=gottseisgedankt@gmail.com'>gottseisgedankt@gmail.com</a><br> 
+				
+			\`)">Mehr Infos</button>
 			`
 		);
 	
