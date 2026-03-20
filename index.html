@@ -100,6 +100,8 @@ body {
 </div>
 
 <div id="map"></div>
+<br>
+<button onclick="setMapToMyPosition()">Karte zu meiner Position setzen</button>
 
 
 <script>
@@ -110,8 +112,6 @@ body {
 
 	function openInformation(html) {
 		yg_information.innerHTML = html;
-		console.log(html);
-		console.log("change");
 		modal.style.display = "block";
 	}
 
@@ -125,8 +125,11 @@ body {
 		}
 	}
 
-	
-	map.locate({setView: true, maxZoom: 19});
+	function setMapToMyPosition() {
+		map.locate({setView: true, maxZoom: 19});
+	}
+
+
 	L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
 		maxZoom: 19,
 		attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
