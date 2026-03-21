@@ -6,9 +6,21 @@
 	<meta http-equiv="X-Clacks-Overhead" content="GNU Terry Pratchett" />
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<title>Katholische Jugendgruppen Karte | Katholische Jugendgruppen Karte</title>
+	<title>Römisch-katholische Jugend Aschaffenburg | Katholische Jugendgruppen Karte</title>
 
 	<meta name="referrer" content="no-referrer-when-downgrade" /><style>
+@font-face {
+	font-family: "main";
+	font-style: "normal";
+	src: local("MathJax_Main"), url('fonts/MathJax_Main-Regular.otf') format('opentype');
+}
+
+@font-face {
+	font-family: "fraktur";
+	font-style: "normal";
+	src: local("MathJax_Main"), url('fonts/MathJax_Fraktur-Regular.otf') format('opentype');
+}
+
 html {
 	background-image: url('./background.jpg');
 }
@@ -20,18 +32,38 @@ body {
 	margin-left: auto;
 	margin-right: auto;
 	padding: 15px;
-	background-color: beige;
+	background: radial-gradient(circle at center, #c9a758 0, white 100%);
+	border: 5px solid #c9a758;
+	border-radius: 25px;
+	font-family: "main";
+	font-size: 16px;
+}
+
+.title {
+	font-family: "main";
+	text-transform: uppercase;
+	text-align: center;
+	font-size: 27px;
+}
+
+.motto {
+	text-align: center;
+	font-size: 18px;
+	color: #a11111;
+	font-family: "fraktur";
 }
 </style>
 </head>
 
 <body>
 <div class="sub-body">
-	<header><h2><a href="/">Katholische Jugendgruppen Karte</a></h2>
-<span style="color: red"><b>Diese Seite ist noch in Entwicklung, die Daten die auf dieser Seite repräsentiert werden sind nicht real und dienen lediglich zu Testzwecken</b></span>
-</header>
+	<header><h2 class="title">Römisch-Katholische Jugend Aschaffenburg</h2>
+
+<p class="motto">"Ehre sei Gott in der Höhe und Friede auf Erden den Menschen seines Wohlgefallens."</p>
+
+<br>
+<span style="color: red"><b>Diese Seite ist noch in Entwicklung, die Daten die auf dieser Seite repräsentiert werden sind nicht real und dienen lediglich zu Testzwecken</b></span></header>
 	<main>
-<p>Willkommen auf dem katholische Jugendgruppen-Finder! Hier haben wir eine Ansammlung von katholischen Jugendgruppen</p>
 <p>Wir stehen fest hinter der Lehre der Kirche. Eine Hauptaufgabe sehen wir darin, jungen Männern und Frauen in der Kirche in chaotischen kulturellen Zeiten zu helfen, sich ihrer gottgegebenen Natur anzunähern, dabei fundamentale Werte rund um Ehe und Familie hervorzuheben und zurück in den offenen kirchlichen und gesellschaftlichen Diskurs zu bringen. Wir stehen geschlossen für das Lebensrecht aller Menschen und unterstützen jede Form der Pro-Life-Arbeit in Deutschland. Wir wollen das Wohlbefinden stärken und eine Anlaufstelle für offene Konversation und das Studium der Kirchenlehre anhand der Bibel und des Katechismus bieten.</p>
 <p>Doch unserer geliebten Kirche fehlt leider dennoch der sichtbare, lebendige Glauben. Das Feuer für Jesus und seine Kirche. Deswegen kannst du hier Gemeinschaften (hoffentlich auch in deiner Nähe) finden, um euch regelmäßig zu treffen, einander im Glauben und im Leben zu unterstützen, gemeinsam die Bibel zu studieren oder auch gemeinschaftlich Aktivitäten nachzugehen.</p>
 
@@ -51,6 +83,8 @@ body {
 	max-height: 80%;
 	margin-left: auto;
 	margin-right: auto;
+	border-radius: 25px;
+	border: 2px solid black;
 }
 
  
@@ -99,6 +133,8 @@ body {
 	</div>
 </div>
 
+<br>
+<br>
 <div id="map"></div>
 <br>
 <button onclick="setMapToMyPosition()">Karte zu meiner Position setzen</button>
