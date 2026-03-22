@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="de-DE">
+
+<head>
+	<meta http-equiv="X-Clacks-Overhead" content="GNU Terry Pratchett" />
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Jugendgruppen Finder | Katholische Jugendgruppen Karte</title>
+
+	<meta name="referrer" content="no-referrer-when-downgrade" /><style>
+@font-face {
+	font-family: "main";
+	font-style: "normal";
+	src: local("MathJax_Main"), url('https://katholischejugend.github.io/fonts/MathJax_Main-Regular.otf') format('opentype');
+}
+
+@font-face {
+	font-family: "fraktur";
+	font-style: "normal";
+	src: local("MathJax_Main"), url('https://katholischejugend.github.io/fonts/MathJax_Fraktur-Regular.otf') format('opentype');
+}
+
+html {
+	background-image: url('https://katholischejugend.github.io/background.jpg');
+}
+body {
+	height: 100%;
+}
+.sub-body {
+	max-width: 1000px;
+	margin-left: auto;
+	margin-right: auto;
+	padding: 15px;
+	background: radial-gradient(circle at center, #d1c29a 10%, #c9a758 100%);
+	border: 5px solid #c9a758;
+	border-radius: 25px;
+	font-family: "main";
+	font-size: 16px;
+}
+
+.title {
+	font-family: "main";
+	text-transform: uppercase;
+	text-align: center;
+	font-size: 27px;
+}
+
+a {
+	text-transform: uppercase;
+	font-size: 17px;
+}
+
+.motto {
+	text-align: center;
+	font-size: 18px;
+	color: #a11111;
+	font-family: "fraktur";
+}
+
+</style></head>
+
+<body>
+<div class="sub-body">
+	<header><h2 class="title">Römisch-Katholische Jugend Aschaffenburg</h2>
+
+<p class="motto">"So ist auch der Glaube für sich allein tot, wenn er nicht Werke vorzuweisen hat."<br>- Jakobus 2:17</p>
+
+<span><a href="https://katholischejugend.github.io/">Startseite</a> | <a href="https://katholischejugend.github.io/finder">Jugendgruppen Finder</a></span>
+<br>
+<span style="background-color: red; color: white"><b>Diese Seite ist noch in Entwicklung, die Daten die auf dieser Seite repräsentiert werden sind nicht real und dienen lediglich zu Testzwecken</b></span></header>
+	<main>
+		
+<h1>Jugendgruppen Finder</h1>
+<p>Hier siehst du unseren Jugendgruppen Finder. Du kannst Ihn benutzen um echte katholische Jugendgruppen und Vereine zu finden.</p>
+<p>Falls du eine Gemeinschaft kennst, die hier noch nicht auf der Liste zu finden ist. Nimm bitte mit uns Kontakt auf und mach uns auf diese Aufmerksam.</p>
+<p>Ebenso gerne falls Du selbst eine solche Gemeinschaft in deiner Gegend gründen möchtest, stehen wir natürlich gerne mit Tipps und falls möglich auch mit Kontakten zur verfügung.</p>
+<p><!-- raw HTML omitted --><a href="mailto:katholische-jugend-ab@mailbox.org">katholische-jugend-ab@mailbox.org</a><!-- raw HTML omitted --></p>
+
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+     integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+     crossorigin=""/>
+
+ 
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+     crossorigin=""></script>
+
+<style>
+#map {
+	height: 600px;
+	width: 100%;
+	max-height: 80%;
+	margin-left: auto;
+	margin-right: auto;
+	border-radius: 25px;
+	border: 2px solid black;
+}
+
+ 
+.modal {
+  display: none;  
+  position: fixed;  
+  left: 0;
+  top: 0;
+  width: 100%;  
+  height: 100%;  
+  overflow: auto;  
+  background-color: rgb(0,0,0);  
+  background-color: rgba(0,0,0,0.4);  
+  z-index: 9999;  
+}
+
+ 
+.modal-content {
+	background: radial-gradient(circle at center, #d1c29a 10%, #c9a758 100%);
+	border: 5px solid #c9a758;
+	border-radius: 25px;
+	
+	max-width: 1000px;
+	margin: 5% auto;  
+	padding: 20px;
+	min-height: 50%;
+	width: 80%; 
+}
+
+ 
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+</style>
+<div id="information" class="modal">
+	<div class="modal-content">
+		<span class="close">&times;</span>
+		<div id="yg-information"></div>
+	</div>
+</div>
+
+<br>
+<br>
+<div id="map"></div>
+<br>
+<button onclick="setMapToMyPosition()">Karte zu meiner Position setzen</button>
+
+
+<script>
+	var map = L.map('map').setView([49.986, 9.137], 19);
+	var modal = document.getElementById("information");
+	var closeModal = document.getElementsByClassName("close")[0];
+	var yg_information = document.getElementById("yg-information");
+
+	function openInformation(html) {
+		yg_information.innerHTML = html;
+		modal.style.display = "block";
+	}
+
+	closeModal.onclick = function() {
+		modal.style.display = "none";
+	}
+
+	window.onclick = function(event) {
+		if (event.target == modal) {
+			modal.style.display = "none";
+		}
+	}
+
+	function setMapToMyPosition() {
+		map.locate({setView: true, maxZoom: 19});
+	}
+
+
+	L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+		maxZoom: 19,
+		attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+		referrerPolicy: "same-origin"
+	}).addTo(map);
+	
+
+
+	
+		L.marker([ 49.986256 ,  9.137583 ]).addTo(map).bindPopup(
+			`
+			<h4>Katholische Jugend Aschaffenburg</h4>
+			
+				<span>Gerade KW: Samstag 16-18 Uhr</span>
+				<br>
+			
+				<span>Ungerade KW: Sonntag 11.30-13.30 Uhr</span>
+				<br>
+			
+
+			<br>
+
+			\x3C!-- This definitely bloats up the index.html file after generation, but
+				 at this time I can't figure out something more elegant while being bound
+				 to a SSG. This passes the html the modal is supposed to show directly through the
+				 button press. -->
+			<button onclick="openInformation(\`
+				<h2>Katholische Jugend Aschaffenburg</h2><hr>
+				<b><u>Treffen:</u></b><br>
+				<span>Gerade KW: Samstag 16-18 Uhr</span><br> <span>Ungerade KW: Sonntag 11.30-13.30 Uhr</span><br> 
+				<b><u>Treffpunkt:</u></b><br>
+				<span>Parkplatz Schillerschule neben der St. Michaelkirche, Aschaffenburg-Damm</span><br>
+
+				
+					<b><u>Informationen:</u></b><br>
+					<span>Bitte vorher anmelden, damit wir dich über evtl. anstehende Terminänderungen informieren können. Zudem kocht Samstags ein Mitglied meist Essen für die anderen, deswegen müssen wir natürlich wissen wieviele Personen erscheinen werden.</span><br>
+				
+
+				<b><u>Kontakt:</u></b><br>
+				 <a href='mailto=katholische-jugend-ab@mailbox.org'>katholische-jugend-ab@mailbox.org</a><br> 
+				
+			\`)">Mehr Infos</button>
+			`
+		);
+	
+		L.marker([ 49.986 ,  9.137 ]).addTo(map).bindPopup(
+			`
+			<h4>Katholische Jugend Buxtehude (NICHT REAL)</h4>
+			
+				<span>Jede Woche Sonntags nach dem Gottesdienst</span>
+				<br>
+			
+
+			<br>
+
+			\x3C!-- This definitely bloats up the index.html file after generation, but
+				 at this time I can't figure out something more elegant while being bound
+				 to a SSG. This passes the html the modal is supposed to show directly through the
+				 button press. -->
+			<button onclick="openInformation(\`
+				<h2>Katholische Jugend Buxtehude (NICHT REAL)</h2><hr>
+				<b><u>Treffen:</u></b><br>
+				<span>Jede Woche Sonntags nach dem Gottesdienst</span><br> 
+				<b><u>Treffpunkt:</u></b><br>
+				<span>Rathaus Buxtehude</span><br>
+
+				
+
+				<b><u>Kontakt:</u></b><br>
+				
+				 <a href='tel:\u002b49 00 00000000'>\u002b49 00 00000000</a><br> 
+			\`)">Mehr Infos</button>
+			`
+		);
+	
+		L.marker([ 50 ,  10 ]).addTo(map).bindPopup(
+			`
+			<h4>Katholische Gemeinde Gott-sei\u0027s Gedankt</h4>
+			
+				<span>Montags 16.00 Uhr bei einem Mitglied</span>
+				<br>
+			
+				<span>Samstags 12.00 Uhr Bibelstunde</span>
+				<br>
+			
+				<span>Sonntags 11.30 Uhr Gemeinschaftsstunde</span>
+				<br>
+			
+
+			<br>
+
+			\x3C!-- This definitely bloats up the index.html file after generation, but
+				 at this time I can't figure out something more elegant while being bound
+				 to a SSG. This passes the html the modal is supposed to show directly through the
+				 button press. -->
+			<button onclick="openInformation(\`
+				<h2>Katholische Gemeinde Gott-sei\u0027s Gedankt</h2><hr>
+				<b><u>Treffen:</u></b><br>
+				<span>Montags 16.00 Uhr bei einem Mitglied</span><br> <span>Samstags 12.00 Uhr Bibelstunde</span><br> <span>Sonntags 11.30 Uhr Gemeinschaftsstunde</span><br> 
+				<b><u>Treffpunkt:</u></b><br>
+				<span>Neben der Kirche</span><br>
+
+				
+					<b><u>Informationen:</u></b><br>
+					<span>Bitte vorher anmelden, damit wir evtl. Terminänderungen durchgeben können</span><br>
+				
+
+				<b><u>Kontakt:</u></b><br>
+				 <a href='mailto=gottseisgedankt@gmail.com'>gottseisgedankt@gmail.com</a><br> 
+				
+			\`)">Mehr Infos</button>
+			`
+		);
+	
+
+
+	
+</script>
+
+
+	</main>
+
+	<footer><hr>
+
+<a href="mailto:katholische-jugend-ab@mailbox.org">Kontakt</a>
+
+
+</footer>
+</div>
+</body>
+
+</html>
